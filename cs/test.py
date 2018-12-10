@@ -16,7 +16,7 @@ class TestSimpleClustering(unittest.TestCase):
         self.assertEqual(clustering(data[0], simple_cluster), data[1])
 
     def test_one1(self):
-        data = [[[1]], [[[0, 0]]]]
+        data = [[[1]], [[[0,0]]]]
         self.assertEqual(clustering(data[0], simple_cluster), data[1])
 
     def test_0s(self):
