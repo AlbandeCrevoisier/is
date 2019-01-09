@@ -68,3 +68,13 @@ def d_cluster(image, x, y, d, clusters):
     """
         clusters[-1].append([x, y])
     image[y][x] = 0
+
+def get_mask(d):
+    """Get the pixels at distance d or less."""
+    m = []
+    for i in range(-d, d+1):
+        for j in range(-d, d+1):
+            if i*i + j*j <= d*d:
+                m.append([i, j])
+    return m
+
