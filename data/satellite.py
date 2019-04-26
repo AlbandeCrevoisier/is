@@ -35,7 +35,7 @@ def geoJSON_to_satellite_view(list_parcelles):
     mask = np.zeros((height, width), dtype=np.uint8)
 
     list_points = []
-    for x, y in big_parcelle.exterior.coords:
+    for x, y in big_parcelle.convex_hull.exterior.coords:
         pix_x, pix_y = convert_to_pixel(int(min_col), int(min_row), x, y)
         list_points.append([int(round(pix_x)), int(round(pix_y))])
 
@@ -88,7 +88,7 @@ def convert_to_title(x, y):
 
 
 def get_tiles_url(col, row):
-    return f"http://wxs.ign.fr/f01up8cve8mfujd90xgwnjaj/geoportail/wmts?service=WMTS&request=GetTile" \
+    return f"http://wxs.ign.fr/flqbhujndgzfdvbngxcbtx5n/geoportail/wmts?service=WMTS&request=GetTile" \
           f"&version=1.0.0&layer=ORTHOIMAGERY.ORTHOPHOTOS" \
           f"&tilematrixset=PM&tilematrix=19&" \
           f"tilecol={col}&" \
