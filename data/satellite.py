@@ -4,9 +4,28 @@ from shapely.geometry import shape
 from shapely.ops import unary_union
 from pyproj import Proj, transform
 from urllib.request import urlopen
+fromsubprocess import run
 
 
 
+def geoJSON_to_satellite_download(parcels):
+    """Download the 256x256x3 thumbnails of a parcel.
+
+    TODO: clean os integration, maybe pick download dir.
+    """
+    parcels_obj = []
+    for parcel in parcels:
+        parcels_obj.append(shape(parcel['geomotry']))
+    big_parcel = unary_union(parcels_obj)
+    xmin, ymin, xmax, ymax = big_parcel.bounds
+    col_min, col_max, row_min, row_max = get_titles_list(xmin, ymin, xmax, ymax)
+    for r in range(row_min, row_max+1):
+        for c in range(col_min, col_max):
+            run(['curl', "-o", "p_" + str(i) + '_' + str(j) + ".jpeg",
+                 # note the use of `pratique` key
+                 "http://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&request=GetTile&version=1.0.0&layer=ORTHOIMAGERY.ORTHOPHOTOS&tilematrixset=PM&tilerow="
+                 + str(i) + "&tilematrix=19&tilecol=" + str(j)
+                 + "&layer=ORTHOIMAGERY.ORTHOPHOTOS&format=image/jpeg&style=normal"])
 
 def geoJSON_to_satellite_view(list_parcelles):
     parcelles_obj_list = []
