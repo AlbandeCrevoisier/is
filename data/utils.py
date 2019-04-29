@@ -28,7 +28,7 @@ def geoJSON_to_satellite_view(parcels):
     big_parcel = unary_union(parcels_obj)
 
     xmin, ymin, xmax, ymax = big_parcel.bounds
-    min_col, max_col, min_row, max_row = get_tiles(xmin, ymin, xmax, ymax)
+    min_col, max_col, min_row, max_row = get_tiles_list(xmin, ymin, xmax, ymax)
 
     img = None
     for row in range(int(min_row), int(max_row) + 1):
