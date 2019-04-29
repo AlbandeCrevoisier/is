@@ -4,23 +4,23 @@ from shapely.geometry import shape
 from shapely.ops import unary_union
 from pyproj import Proj, transform
 from urllib.request import urlopen
-fromsubprocess import run
+from subprocess import run
 
 
 
 def geoJSON_to_satellite_download(parcels):
-    """Download the 256x256x3 thumbnails of a parcel.
+    """Download the 256x256x3 thumbnails of a list of parcels.
 
     TODO: clean os integration, maybe pick download dir.
     """
     parcels_obj = []
     for parcel in parcels:
-        parcels_obj.append(shape(parcel['geomotry']))
+        parcels_obj.append(shape(parcel['geometry']))
     big_parcel = unary_union(parcels_obj)
     xmin, ymin, xmax, ymax = big_parcel.bounds
-    col_min, col_max, row_min, row_max = get_titles_list(xmin, ymin, xmax, ymax)
-    for r in range(row_min, row_max+1):
-        for c in range(col_min, col_max):
+    col_min, col_max, row_min, row_max = get_tiles_list(xmin, ymin, xmax, ymax)
+    for r in range(int(row_min), int(row_max + 1)):
+        for c in range(int(col_min), int(col_max + 1)):
             run(['curl', "-o", "p_" + str(i) + '_' + str(j) + ".jpeg",
                  # note the use of `pratique` key
                  "http://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&request=GetTile&version=1.0.0&layer=ORTHOIMAGERY.ORTHOPHOTOS&tilematrixset=PM&tilerow="
@@ -34,10 +34,10 @@ def geoJSON_to_satellite_view(list_parcelles):
     big_parcelle = unary_union(parcelles_obj_list)
 
     minx, miny, maxx, maxy = big_parcelle.bounds
-    min_col, max_col, min_row, max_row = get_titles_list(minx, miny, maxx, maxy)
+    min_col, max_col, min_row, max_row = get_tiles_list(minx, miny, maxx, maxy)
 
     img = None
-    for row in range(int(min_row), int(max_row+1)):
+    for row in range(int(min_row), int(max_row + 1)):
         img0 = None
         for col in range(int(min_col), int(max_col + 1)):
             image = url_to_image(get_tiles_url(col, row))
@@ -69,14 +69,14 @@ def geoJSON_to_satellite_view(list_parcelles):
     return cropped
 
 
-def get_titles_list(minx, miny, maxx, maxy):
-    min_col, min_row = convert_to_title(minx, miny)
-    max_col, max_row = convert_to_title(maxx, maxy)
-    if(min_col>max_col):
+def get_tiles_list(minx, miny, maxx, maxy):
+    min_col, min_row = convert_to_tile(minx, miny)
+    max_col, max_row = convert_to_tile(maxx, maxy)
+    if(min_col > max_col):
         temp = min_col
         min_col = max_col
         max_col = temp
-    if(min_row>max_row):
+    if(min_row > max_row):
         temp = min_row
         min_row = max_row
         max_row = temp
@@ -96,7 +96,7 @@ def convert_to_pixel(min_col, min_row, x, y):
     return pixel_x, pixel_y
 
 
-def convert_to_title(x, y):
+def convert_to_tile(x, y):
     X, Y = transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), x, y)
     X0 = -20037508.3427892476320267
     Y0 = 20037508.3427892476320267

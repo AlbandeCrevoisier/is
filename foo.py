@@ -1,52 +1,21 @@
-import os
 import numpy as np
 import matplotlib.pyplot as plt
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.models import load_model
+import json
+from data.satellite import *
 
+commune = json.load(open('data/cadastre-06105-parcelles.json'))['features']
 
-# Get dataset
-X_pos, X_neg, y_pos, y_neg = [], [], [], []
-for f in os.listdir('data/simple/with_pool'):
-    X_pos.append(plt.imread('data/pictures/with_pool/' + f))
-    y_pos.append(1)
-X_pos, y_pos = np.array(X_pos), np.array(y_pos).reshape(-1, 1)
-for f in os.listdir('data/simple/without_pool'):
-    X_neg.append(plt.imread('data/pictures/without_pool/' + f))
-    y_neg.append(0)
-X_neg, y_neg = np.array(X_neg), np.array(y_neg).reshape(-1, 1)
+m = load_model('model.h5')
 
-# Undersample to correct class imbalance: 2.87% of images contain a pool.
-i = np.random.permutation(len(X_neg))
-X_neg = X_neg[i[:len(X_pos)]]
-y_neg = y_neg[i[:len(y_pos)]]
-
-X = np.concatenate((X_pos, X_neg)) / 255
-y = np.concatenate((y_pos, y_neg))
-
-# Shuffle data to mix pos and neg
-i = np.random.permutation(X.shape[0])
-i_split = int(np.floor(0.8 * X.shape[0]))
-X_train, X_test = X[i[:i_split]], X[i[i_split:]]
-y_train, y_test = y[i[:i_split]], y[i[i_split:]]
-
-train = tf.data.Dataset.from_tensor_slices((X_train, y_train))
-train = train.batch(10).repeat()
-test = tf.data.Dataset.from_tensor_slices((X_test, y_test))
-test = test.batch(10).repeat()
-
-model = Sequential()
-model.add(Flatten())
-model.add(Dense(16, activation='relu', input_shape=(256 * 256 * 3,)))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
-
-model.compile(loss='binary_crossentropy', optimizer='adam',
-              metrics=['accuracy'])
-model.fit(train, epochs=5, steps_per_epoch=100,
-          validation_data=test, validation_steps=3)
+for parcel in commune:
+    g = shape(parcel['geometry'])
+    xmin, ymin, xmax, ymax = g.bounds
+    col_min, col_max, row_min, row_max = get_tiles_list(xmin, ymin, xmax, ymax)
+    for r in range(int(row_min), int(row_max + 1)):
+        for c in range(int(col_min), int(col_max + 1)):
+            img = plt.imread(urlopen(get_tiles_url(c, r)), format='JPEG')
+            plt.imshow(img)
+            plt.show()
+            print(m.predict([[img / 255]]) > 0.5)
 
