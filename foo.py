@@ -24,7 +24,7 @@ X_neg = X_neg[i[:len(X_pos)]]
 y_neg = y_neg[i[:len(y_pos)]]
 
 X = np.concatenate((X_pos, X_neg)) / 255
-y = np.concatenate((y_pos, y_neg)) / 255
+y = np.concatenate((y_pos, y_neg))
 
 # Shuffle data to mix pos and neg
 i = np.random.permutation(X.shape[0])
@@ -39,8 +39,10 @@ test = test.batch(10).repeat()
 
 model = Sequential()
 model.add(Flatten())
-model.add(Dense(32, activation='relu', input_shape=(256 * 256 * 3,)))
-model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu', input_shape=(256 * 256 * 3,)))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer='adam',
