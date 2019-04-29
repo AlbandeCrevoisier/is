@@ -5,3 +5,10 @@ The goal is pool detection on satellite pictures of parcels.
 
 The data is that of the commune 06105 and can be found here:
 https://cadastre.data.gouv.fr/data/etalab-cadastre/2019-01-01/geojson/communes/06/06105/cadastre-06105-parcelles.json.gz
+
+I used a CNN to detect pool, and reached 95% accuracy. `foo.py` uses this model
+to detect on the fly pools on IGN for a given parcel.
+
+Note: I took the liberty to redact the given code, which can now be found
+in `data/utils.py`.
+
