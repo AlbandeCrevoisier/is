@@ -60,27 +60,14 @@ def get_tiles_list(minx, miny, maxx, maxy):
     return min_col, max_col, min_row, max_row
 
 
-def convert_to_pixel(min_col, min_row, x, y):
-    X, Y = transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), x, y)
-    X0 = -20037508.3427892476320267
-    Y0 = 20037508.3427892476320267
-    Resolution = 0.2985821417
-    X1 = X0 + min_col * (256 * Resolution)
-    Y1 = Y0 - min_row * (256 * Resolution)
-
-    pixel_x = (X - X1) / Resolution
-    pixel_y = (Y1 - Y) / Resolution
-    return pixel_x, pixel_y
-
-
 def convert_to_tile(x, y):
     X, Y = transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), x, y)
     X0 = -20037508.3427892476320267
     Y0 = 20037508.3427892476320267
     Resolution = 0.2985821417
-    tile_col = (X - X0) / (256 * Resolution)
-    tile_row = (Y0 - Y) / (256 * Resolution)
-    return tile_col, tile_row
+    col = (X - X0) / (256 * Resolution)
+    row = (Y0 - Y) / (256 * Resolution)
+    return col, row
 
 
 def get_tiles_url(col, row):
