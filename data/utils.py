@@ -15,10 +15,10 @@ def geoJSON_to_satellite_download(parcels):
     big_parcel = unary_union(parcels_obj)
     xmin, ymin, xmax, ymax = big_parcel.bounds
     col_min, col_max, row_min, row_max = get_tiles_list(xmin, ymin, xmax, ymax)
-    for c in range(int(col_min), int(col_max) + 1):
-        for r in range(int(row_min), int(row_max) + 1):
-            run(['curl', "-o", "p_" + str(c) + '_' + str(r) + ".jpeg",
-                 get_tiles_url(c, r)])
+    for col in range(int(col_min), int(col_max) + 1):
+        for row in range(int(row_min), int(row_max) + 1):
+            run(['curl', "-o", "p_" + str(col) + '_' + str(row) + ".jpeg",
+                 get_tiles_url(col, row)])
 
 
 def geoJSON_to_satellite_view(parcels):
@@ -27,14 +27,14 @@ def geoJSON_to_satellite_view(parcels):
         parcels_obj.append(shape(parcel['geometry']))
     big_parcel = unary_union(parcels_obj)
 
-    minx, miny, maxx, maxy = big_parcel.bounds
-    min_col, max_col, min_row, max_row = get_tiles(minx, miny, maxx, maxy)
+    xmin, ymin, xmax, ymax = big_parcel.bounds
+    min_col, max_col, min_row, max_row = get_tiles(xmin, ymin, xmax, ymax)
 
     img = None
     for row in range(int(min_row), int(max_row) + 1):
         img0 = None
         for col in range(int(min_col), int(max_col) + 1):
-            image = plt.imread(urlopen(get_tiles_url(c, r)), format='JPEG')
+            image = plt.imread(urlopen(get_tiles_url(col, row)), format='JPEG')
             if img0 is None:
                 img0 = image
             else:
@@ -46,14 +46,14 @@ def geoJSON_to_satellite_view(parcels):
     return img
 
 
-def get_tiles_list(minx, miny, maxx, maxy):
-    min_col, min_row = convert_to_tile(minx, miny)
-    max_col, max_row = convert_to_tile(maxx, maxy)
-    if(min_col > max_col):
+def get_tiles_list(xmin, ymin, xmax, ymax):
+    min_col, min_row = convert_to_tile(xmin, ymin)
+    max_col, max_row = convert_to_tile(xmax, ymax)
+    if min_col > max_col:
         temp = min_col
         min_col = max_col
         max_col = temp
-    if(min_row > max_row):
+    if min_row > max_row:
         temp = min_row
         min_row = max_row
         max_row = temp
@@ -71,7 +71,7 @@ def convert_to_tile(x, y):
 
 
 def get_tiles_url(col, row):
-    # note the use of `pratique` key
+    # Note the use of `pratique` key
     return f"http://wxs.ign.fr/pratique/geoportail/wmts?service=WMTS"\
           f"&request=GetTile" \
           f"&version=1.0.0&layer=ORTHOIMAGERY.ORTHOPHOTOS" \
