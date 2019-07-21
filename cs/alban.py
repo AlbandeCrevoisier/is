@@ -66,15 +66,23 @@ def d_cluster(image, x, y, d, clusters):
 
     d is the static distance that defines a cluster.
     """
-        clusters[-1].append([x, y])
-    image[y][x] = 0
+    m = d_mask(d)
+    for j in range(len(m)):
+        for i in range(len(m[0])):
+            if (m[j][i] is 1 and x + i >= 0 and x + i < len(image[0])
+                    and y + j >= 0 and y + j < len(image)
+                    and image[y+j][x+i] is 1):
+                image[y+j][x+i] = 0
+                clusters.append([x+i, y+j])
+    return clusters
 
-def get_mask(d):
-    """Get the pixels at distance d or less."""
-    m = []
-    for i in range(-d, d+1):
-        for j in range(-d, d+1):
-            if i*i + j*j <= d*d:
-                m.append([i, j])
+
+def d_mask(d):
+    """Compute the mask of pixels at distance at most d."""
+    l = [1 for i in range(2*d + 1)]
+    m = [l.copy() for i in range(2*d + 1)]
+    for y in range(len(m)):
+        for x in range(len(m[0])):
+            if (x-d)**2 + (y-d)**2 > d**2:
+                m[y][x] = 0
     return m
-

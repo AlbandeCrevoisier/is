@@ -67,5 +67,20 @@ class TestSimpleClustering(unittest.TestCase):
         self.assertEqual(clustering(data[0], simple_cluster), data[1])
 
 
+class TestDistanceClustering(unittest.TestCase):
+
+    def test_d_null(self):
+        data = [0, [[1]]]
+        self.assertEqual(d_mask(data[0]), data[1])
+
+    def test_d_mask(self):
+        data = [2, [[0,0,1,0,0],
+                    [0,1,1,1,0],
+                    [1,1,1,1,1],
+                    [0,1,1,1,0],
+                    [0,0,1,0,0]
+                   ]]
+        self.assertEqual(d_mask(data[0]), data[1])
+
 if __name__ == "__main__":
     unittest.main()
