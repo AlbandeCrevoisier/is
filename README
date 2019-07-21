@@ -1,4 +1,4 @@
-This is the offline test for Luko.
+This is the offline test for ****.
 26/04/2019 - 29/04/2019
 
 The goal is pool detection on satellite pictures of parcels.
@@ -8,7 +8,4 @@ https://cadastre.data.gouv.fr/data/etalab-cadastre/2019-01-01/geojson/communes/0
 
 I used a CNN to detect pool, and reached 95% accuracy. `foo.py` uses this model
 to detect on the fly pools on IGN for a given parcel.
-
-Note: I took the liberty to redact the given code, which can now be found
-in `data/utils.py`.
 
