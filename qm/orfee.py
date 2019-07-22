@@ -20,3 +20,6 @@ def pp(d):
 	cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
 	d[['age', 'note']] /= 100
 	d = pd.get_dummies(d, columns=cat)
+	d['day'] = d['date'].transform(lambda x: x.day)
+	d['month'] = d['date'].transform(lambda x: x.month)
+	d['year'] = d['date'].transform(lambda x: x.year)
