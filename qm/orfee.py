@@ -9,7 +9,7 @@ sns.set()
 def load_data():
     d = pd.read_csv("data.csv", index_col='index', parse_dates=['date'])
     d.dropna(inplace=True)
-    d.drop(['Unnamed: 0'], axis=1, inplace=True)
+    d.drop('Unnamed: 0', axis=1, inplace=True)
     d.drop(d[d['age'] < 18].index, inplace=True)
     d.drop(d[d['exp'] < 0].index, inplace=True)
     d.drop(d[d['note'] > 100].index, inplace=True)
@@ -28,10 +28,12 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def pp(d):
-    cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
-    d[['age', 'note']] /= 100
-    d = pd.get_dummies(d, columns=cat)
+def cat_pp(d):
     d['day'] = d['date'].transform(lambda x: x.day)
     d['month'] = d['date'].transform(lambda x: x.month)
     d['year'] = d['date'].transform(lambda x: x.year)
+    d.drop('date', axis=1, inplace=True)
+    cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo',
+           'day', 'month', 'year']
+    d = pd.get_dummies(d, columns=cat)
+    return d
