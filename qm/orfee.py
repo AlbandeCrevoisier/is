@@ -16,6 +16,17 @@ def load_data():
 	return d
 
 
+def plots(d):
+	print("Taux d'embauche : ", d['embauche'].mean())
+	sns.lineplot(data=d[['date', 'embauche']].groupby('date').sum().cumsum())
+	sns.jointplot('age', 'exp', kind='kde', data=d)
+	sns.kdeplot(d['salaire'], shade=True)
+	sns.scatterplot('salaire', 'note', 'embauche', data=d)
+	sns.countplot('diplome', hue='specialite', data=d)
+	sns.barplot('diplome', 'embauche', 'specialite', data=d)
+	sns.barplot('sexe', 'note', 'embauche', data=d)
+
+
 def pp(d):
 	cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
 	d[['age', 'note']] /= 100
