@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import seaborn as sns
 pd.plotting.register_matplotlib_converters()
@@ -28,7 +29,7 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def pp(d):
+def pp(d, test_size=0.25):
     y = d.pop('embauche')
     X = d
     X['day'] = X['date'].transform(lambda x: x.day)
@@ -41,4 +42,4 @@ def pp(d):
     X[['age', 'note']] /= 100
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
     X['exp'] = (X['exp'] - X['exp'].mean()) / X['exp'].std()
-    return X, y
+    return train_test_split(X, y, test_size=test_size)
