@@ -8,6 +8,7 @@ sns.set()
 
 
 def load_data():
+    """ Read data.csv and return a pandas DataFrame. """
     d = pd.read_csv("data.csv", index_col='index', parse_dates=['date'])
     d.dropna(inplace=True)
     d.drop('Unnamed: 0', axis=1, inplace=True)
@@ -19,6 +20,7 @@ def load_data():
 
 
 def plots(d):
+    """ Relevant Seaborn plots. """
     print("Taux d'embauche : ", d['embauche'].mean())
     sns.lineplot(data=d[['date', 'embauche']].groupby('date').sum().cumsum())
     sns.jointplot('age', 'exp', kind='kde', data=d)
@@ -30,6 +32,12 @@ def plots(d):
 
 
 def pp(d, test_size=0.25):
+    """ Preprocess the DataFrame d and return a train/test split.
+    d: DataFrame
+    test_size: fraction of the test/train split
+
+    return: X_train, X_test, y_train, y_test as DataFrames.
+    """
     y = d.pop('embauche')
     X = d
     X['day'] = X['date'].transform(lambda x: x.day)
