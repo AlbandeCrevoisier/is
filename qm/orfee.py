@@ -28,12 +28,13 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def cat_pp(d):
-    d['day'] = d['date'].transform(lambda x: x.day)
-    d['month'] = d['date'].transform(lambda x: x.month)
-    d['year'] = d['date'].transform(lambda x: x.year)
-    d.drop('date', axis=1, inplace=True)
+def pp(X):
+    X['day'] = X['date'].transform(lambda x: x.day)
+    X['month'] = X['date'].transform(lambda x: x.month)
+    X['year'] = X['date'].transform(lambda x: x.year)
+    X.drop('date', axis=1, inplace=True)
     cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo',
            'day', 'month', 'year']
-    d = pd.get_dummies(d, columns=cat)
-    return d
+    X = pd.get_dummies(X, columns=cat)
+    X[['age', 'note']] /= 100
+    return X
