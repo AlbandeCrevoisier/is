@@ -28,7 +28,9 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def pp(X):
+def pp(d):
+    y = d.pop('embauche')
+    X = d
     X['day'] = X['date'].transform(lambda x: x.day)
     X['month'] = X['date'].transform(lambda x: x.month)
     X['year'] = X['date'].transform(lambda x: x.year)
@@ -37,4 +39,6 @@ def pp(X):
            'day', 'month', 'year']
     X = pd.get_dummies(X, columns=cat)
     X[['age', 'note']] /= 100
-    return X
+    X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
+    X['exp'] = (X['exp'] - X['exp'].mean()) / X['exp'].std()
+    return X, y
