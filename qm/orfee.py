@@ -59,7 +59,14 @@ def feature_importance(X, y):
     sns.barplot(X.columns.values[idx[:10]], fi[idx[:10]])
 
 
+def compare_clf(X, y):
+    """Compare the standard methods."""
+    # Naive Bayes
+    # Logistic Regression
+    # Random Forest
+    # Multi-Layer Perceptron
+
+
 if __name__ == "__main__":
     data = load_data()
     X, y = pp(data)
-    feature_importance(X, y)
