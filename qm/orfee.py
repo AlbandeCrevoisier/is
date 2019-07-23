@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score
+from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
 import matplotlib.pyplot as plt
@@ -62,9 +63,11 @@ def feature_importance(X, y):
 
 def compare_clf(X, y):
     """Compare the standard methods."""
-    # Naive Bayes
+    nb = GaussianNB()
+    nb_score = cross_val_score(nb, X, y, cv=10, verbose=1, n_jobs=-1)
+    print('Naive Bayes', nb_score.mean(), nb_score.std())
     lr = LogisticRegression(solver='lbfgs', multi_class='multinomial',
-                            n_jobs=-1)
+        n_jobs=-1)
     lr_score = cross_val_score(lr, X, y, cv=10, verbose=1, n_jobs=-1)
     print('Logistic Regression', lr_score.mean(), lr_score.std())
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
