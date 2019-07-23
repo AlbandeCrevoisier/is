@@ -63,10 +63,13 @@ def compare_clf(X, y):
     """Compare the standard methods."""
     # Naive Bayes
     # Logistic Regression
-    # Random Forest
+    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
+    ert_score = cross_val_score(ert, X, y, cv=10, verbose=1, n_jobs=-1)
+    print(ert_score.mean(), ert_score.std())
     # Multi-Layer Perceptron
 
 
 if __name__ == "__main__":
     data = load_data()
     X, y = pp(data)
+    compare_clf(X, y)
