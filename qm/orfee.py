@@ -5,6 +5,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
 pd.plotting.register_matplotlib_converters()
@@ -62,24 +63,24 @@ def feature_importance(X, y):
     sns.barplot(X.columns.values[idx[:10]], fi[idx[:10]])
 
 
-def compare_clf(X, y):
-    """Compare the standard methods."""
+def make_clfs(X, y):
+    """Make classifiers following the standard methods."""
     nb = GaussianNB()
-    nb_score = cross_val_score(nb, X, y, cv=10, verbose=1, n_jobs=-1)
-    print('Naive Bayes', nb_score.mean(), nb_score.std())
     lr = LogisticRegression(solver='lbfgs', multi_class='multinomial',
         n_jobs=-1)
-    lr_score = cross_val_score(lr, X, y, cv=10, verbose=1, n_jobs=-1)
-    print('Logistic Regression', lr_score.mean(), lr_score.std())
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
-    ert_score = cross_val_score(ert, X, y, cv=10, verbose=1, n_jobs=-1)
-    print('Random Forest ', ert_score.mean(), ert_score.std())
     svm = SVC(gamma='scale')
-    svm_score = cross_val_score(svm, X, y, cv=10, verbose=1, n_jobs=-1)
-    print('SVM', svm_score.mean(), svm_score.std())
-    # Multi-Layer Perceptron
+    mlp = MLPClassifier((70, 70, 70), solver='lbfgs')
+    return {'nb': nb, 'lr': lr, 'ert': ert, 'svm': svm, 'mlp': mlp}
+
+
+def compare_clf(clfs, X, y):
+    """Compare the given classifiers."""
+    for name, clf in clfs.items():
+        clf_score = cross_val_score(clf, X, y, cv=10, n_jobs=-1)
+        print(name + ': ', clf_score.mean(), clf_score.std())
 
 
 if __name__ == "__main__":
     X, y = pp(load_data())
-    compare_clf(X, y)
+    compare_clf(make_clfs(X, y), X, y)
