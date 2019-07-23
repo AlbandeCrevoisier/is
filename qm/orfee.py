@@ -47,3 +47,11 @@ def pp(d):
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
     X['exp'] = (X['exp'] - X['exp'].mean()) / X['exp'].std()
     return X, y
+
+
+if __name__ == "__main__":
+    data = load_data()
+    X, y = pp(data)
+    erd = ExtraTreesClassifier()
+    score = cross_val_score(erd, X, y)
+    print(score.mean())
