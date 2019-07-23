@@ -4,6 +4,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.svm import SVC
 import matplotlib.pyplot as plt
 import seaborn as sns
 pd.plotting.register_matplotlib_converters()
@@ -73,10 +74,12 @@ def compare_clf(X, y):
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     ert_score = cross_val_score(ert, X, y, cv=10, verbose=1, n_jobs=-1)
     print('Random Forest ', ert_score.mean(), ert_score.std())
+    svm = SVC(gamma='scale')
+    svm_score = cross_val_score(svm, X, y, cv=10, verbose=1, n_jobs=-1)
+    print('SVM', svm_score.mean(), svm_score.std())
     # Multi-Layer Perceptron
 
 
 if __name__ == "__main__":
-    data = load_data()
-    X, y = pp(data)
+    X, y = pp(load_data())
     compare_clf(X, y)
