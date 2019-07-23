@@ -46,3 +46,4 @@ def pp(d):
     X[['age', 'note']] /= 100
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
     X['exp'] = (X['exp'] - X['exp'].mean()) / X['exp'].std()
+    return X, y
