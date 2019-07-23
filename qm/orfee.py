@@ -49,9 +49,17 @@ def pp(d):
     return X, y
 
 
+def feature_importance(X, y):
+    """Get the feature importance."""
+    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
+    ert.fit(X, y)
+    fi = ert.feature_importances_
+    idx = np.argsort(fi)[::-1]
+    plt.xticks(rotation=30)
+    sns.barplot(X.columns.values[idx[:10]], fi[idx[:10]])
+
+
 if __name__ == "__main__":
     data = load_data()
     X, y = pp(data)
-    erd = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
-    score = cross_val_score(erd, X, y, cv=10, verbose=10, n_jobs=-1)
-    print(score.mean())
+    feature_importance(X, y)
