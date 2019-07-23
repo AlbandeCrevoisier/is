@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
@@ -36,7 +36,7 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def pp(d):
+def pp(d, test_size=0.25):
     """Preprocess the DataFrame d and return X, y."""
     y = d.pop('embauche')
     X = d
@@ -50,7 +50,7 @@ def pp(d):
     X[['age', 'note']] /= 100
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
     X['exp'] = (X['exp'] - X['exp'].mean()) / X['exp'].std()
-    return X, y
+    return train_test_split(X, y, test_size=test_size)
 
 
 def feature_importance(X, y):
@@ -74,13 +74,13 @@ def make_clfs(X, y):
     return {'nb': nb, 'lr': lr, 'ert': ert, 'svm': svm, 'mlp': mlp}
 
 
-def compare_clf(clfs, X, y):
+def compare_clfs(clfs, X, y):
     """Compare the given classifiers."""
     for name, clf in clfs.items():
         clf_score = cross_val_score(clf, X, y, cv=10, n_jobs=-1)
-        print(name + ': ', clf_score.mean(), clf_score.std())
+        print(name + ': ', clf_score.mean(), '+/- ', clf_score.std() * 2)
 
 
 if __name__ == "__main__":
     X, y = pp(load_data())
-    compare_clf(make_clfs(X, y), X, y)
+    compare_clfs(make_clfs(X, y), X, y)
