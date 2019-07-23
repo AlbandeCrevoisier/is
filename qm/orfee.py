@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import ExtraTreesClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -62,10 +63,13 @@ def feature_importance(X, y):
 def compare_clf(X, y):
     """Compare the standard methods."""
     # Naive Bayes
-    # Logistic Regression
+    lr = LogisticRegression(solver='lbfgs', multi_class='multinomial',
+                            n_jobs=-1)
+    lr_score = cross_val_score(lr, X, y, cv=10, verbose=1, n_jobs=-1)
+    print('Logistic Regression', lr_score.mean(), lr_score.std())
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     ert_score = cross_val_score(ert, X, y, cv=10, verbose=1, n_jobs=-1)
-    print(ert_score.mean(), ert_score.std())
+    print('Random Forest ', ert_score.mean(), ert_score.std())
     # Multi-Layer Perceptron
 
 
