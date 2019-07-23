@@ -52,6 +52,6 @@ def pp(d):
 if __name__ == "__main__":
     data = load_data()
     X, y = pp(data)
-    erd = ExtraTreesClassifier()
-    score = cross_val_score(erd, X, y)
+    erd = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
+    score = cross_val_score(erd, X, y, cv=10, verbose=10, n_jobs=-1)
     print(score.mean())
