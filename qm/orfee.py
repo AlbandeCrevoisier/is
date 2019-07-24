@@ -66,18 +66,12 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    nb = GaussianNB()
-    lr = LogisticRegressionCV(cv=5, solver='lbfgs', multi_class='multinomial',
-        n_jobs=-1)
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     svm = SVC(gamma='scale')
-    mlp = MLPClassifier((70, 70, 70), solver='lbfgs')
     return {
-        'Naive Bayes': nb,
-        'Logistic Regression': lr,
         'Extremely Randomized Trees': ert,
         'SVM': svm,
-        'Multi-layer Perceptron': mlp}
+        }
 
 
 def compare_clfs(clfs, X, y):
