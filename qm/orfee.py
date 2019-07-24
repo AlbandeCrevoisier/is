@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
@@ -67,7 +67,7 @@ def feature_importance(X, y):
 def make_clfs():
     """Make classifiers following the standard methods."""
     nb = GaussianNB()
-    lr = LogisticRegression(solver='lbfgs', multi_class='multinomial',
+    lr = LogisticRegressionCV(cv=5, solver='lbfgs', multi_class='multinomial',
         n_jobs=-1)
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     svm = SVC(gamma='scale')
