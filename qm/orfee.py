@@ -64,7 +64,7 @@ def feature_importance(X, y):
     sns.barplot(X.columns.values[idx[:10]], fi[idx[:10]])
 
 
-def make_clfs(X, y):
+def make_clfs():
     """Make classifiers following the standard methods."""
     nb = GaussianNB()
     lr = LogisticRegression(solver='lbfgs', multi_class='multinomial',
