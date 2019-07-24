@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score, learning_curve
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegressionCV
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
@@ -66,7 +66,7 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
+    ert = ExtraTreesClassifier(n_estimators=100, bootstrap=True, oob_score=True, n_jobs=-1)
     svm = SVC(gamma='scale')
     return {
         'Extremely Randomized Trees': ert,
@@ -97,4 +97,5 @@ def compare_clfs(clfs, X, y):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = pp(load_data())
-    compare_clfs(make_clfs(), X_train, y_train)
+    gtb = GradientBoostingClassifier()
+    compare_clfs({'Gradient Tree Boosting': gtb}, X_train, y_train)
