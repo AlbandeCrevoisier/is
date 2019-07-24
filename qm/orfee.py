@@ -1,7 +1,7 @@
 from importlib import reload
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, learning_curve
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier
@@ -10,7 +10,7 @@ from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
 pd.plotting.register_matplotlib_converters()
-sns.set()
+sns.set(style='white')
 
 
 def load_data():
@@ -72,14 +72,33 @@ def make_clfs():
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     svm = SVC(gamma='scale')
     mlp = MLPClassifier((70, 70, 70), solver='lbfgs')
-    return {'nb': nb, 'lr': lr, 'ert': ert, 'svm': svm, 'mlp': mlp}
+    return {
+        'Naive Bayes': nb,
+        'Logistic Regression': lr,
+        'Extremely Randomized Trees': ert,
+        'SVM': svm,
+        'Multi-layer Perceptron': mlp}
 
 
 def compare_clfs(clfs, X, y):
     """Compare the given classifiers."""
     for name, clf in clfs.items():
-        clf_score = cross_val_score(clf, X, y, cv=10, n_jobs=-1)
-        print(name + ': ', clf_score.mean(), '+/- ', clf_score.std() * 2)
+        train_size, train, test = learning_curve(clf, X, y, cv=5, verbose=1, shuffle=True, n_jobs=-1)
+        trainmean = np.mean(train, axis=1)
+        trainstd = np.std(train, axis=1)
+        testmean = np.mean(test, axis=1)
+        teststd = np.std(test, axis=1)
+        plt.figure()
+        plt.title(name)
+        plt.xlabel("Training examples")
+        plt.ylabel("Score")
+        plt.plot(train_size, trainmean, 'o-', color='b', label='Training')
+        plt.fill_between(train_size, trainmean - trainstd, trainmean + trainstd, alpha=0.1, color='b')
+        plt.plot(train_size, testmean, 'o-', color='g', label='Cross-validation')
+        plt.fill_between(train_size, testmean - teststd, testmean + teststd, alpha=0.1, color='g')
+        plt.legend(loc='best')
+        sns.despine()
+        plt.show()
 
 
 if __name__ == "__main__":
