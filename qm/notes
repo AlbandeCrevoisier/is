@@ -4,3 +4,15 @@ Logistic Regression (CV):  0.882713368143801 +/-  0.0005885747729990348
 Extremely Randomized Trees:  0.9045379911587572 +/-  0.010479328212128736
 SVM:  0.8939400212559493 +/-  0.00512464106306369
 Multi-layer Perceptron:  0.8764320810806646 +/-  0.015886017827785582
+
+Second basic run, with time this time.
+[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:    6.6s finished
+nb:  0.7255446605979391 +/-  0.02561851928350826
+[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:   55.7s finished
+lr:  0.8834984212066601 +/-  0.0005897821058666877
+[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:   20.8s finished
+ert:  0.9065016095990636 +/-  0.008697473829275422
+[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:  1.5min finished
+svm:  0.8955098809358779 +/-  0.004593061000454386
+[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:  5.7min finished
+mlp:  0.8759616160682654 +/-  0.01645474935571568
