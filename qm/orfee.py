@@ -84,4 +84,4 @@ def compare_clfs(clfs, X, y):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = pp(load_data())
-    compare_clfs(make_clfs(X_train, y_train), X_train, y_train)
+    compare_clfs(make_clfs(), X_train, y_train)
