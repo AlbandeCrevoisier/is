@@ -37,8 +37,12 @@ def plots(d):
     sns.barplot('sexe', 'note', 'embauche', data=d)
 
 
-def pp(d, test_size=0.25):
+def pp(data, test_size=0.25, inplace=True):
     """Preprocess the DataFrame d and return X, y."""
+    if inplace:
+        d = data
+    else:
+        d = data.copy()
     y = d.pop('embauche')
     X = d
     X['day'] = X['date'].transform(lambda x: x.day)
