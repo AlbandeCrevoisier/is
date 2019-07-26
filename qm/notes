@@ -29,4 +29,26 @@ Random - or not - grid search sur :
 - learning rate
 - subsampling
 - max_features /? max_leaf_nodes
-
+=>
+mean_fit_time                                                     9.07354
+std_fit_time                                                    0.0896414
+mean_score_time                                                 0.0525171
+std_score_time                                                 0.00150767
+param_learning_rate                                              0.180573
+param_max_features                                                     17
+param_max_leaf_nodes                                                   55
+param_n_estimators                                                    250
+param_subsample                                                  0.932737
+params {
+'learning_rate': 0.18057255071889902,
+'max_features': 17,
+'max_leaf_nodes': 55,
+'n_estimators': 250,
+'subsample': 0.9327365944984131}
+split0_test_score                                                0.913265
+split1_test_score                                                0.916797
+split2_test_score                                                0.910518
+split3_test_score                                                0.907771
+split4_test_score                                                0.911626
+mean_test_score                                                  0.911996
+std_test_score                                                 0.00299486
