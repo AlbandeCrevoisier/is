@@ -2,7 +2,7 @@ from importlib import reload
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.model_selection import learning_curve
+from sklearn.model_selection import learning_curve, RandomizedSearchCV
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
@@ -51,7 +51,7 @@ def pp(data, test_size=0.25, inplace=True):
     X['year'] = X['date'].transform(lambda x: x.year)
     X.drop('date', axis=1, inplace=True)
     cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo',
-           'day', 'month', 'year']
+        'day', 'month', 'year']
     X = pd.get_dummies(X, columns=cat)
     X[['age', 'note']] /= 100
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
@@ -108,4 +108,4 @@ def compare_clfs(clfs, X, y):
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = pp(load_data())
     gtb = GradientBoostingClassifier()
-    compare_clfs({'Gradient Tree Boosting': gtb}, X_train, y_train)
+    rs = 
