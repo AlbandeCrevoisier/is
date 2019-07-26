@@ -38,9 +38,9 @@ foo
 
 \subsection{Sélection de modèle}
 Commençons par comparer quelques modèles classiques avec les paramètres
-par défaut pour se faire une première idée : un classificateur bayesien standard,
-une régression logistique, une random forest, une SVM et un réseau de neurones
-dense.
+par défaut pour se faire une première idée : un classificateur bayesien
+standard, une régression logistique, une random forest, une SVM et un réseau de
+neurones dense.
 
 \begin{figure}
 \begin{tabular}{cc}
@@ -55,10 +55,11 @@ dense.
 \end{figure}
 
 Le classificateur bayesien fournit un seuil minimal de performances attendues,
-que tous les autres classificateurs dépassent, ce qui témoigne de leur efficacité.
+que tous les autres classificateurs dépassent, ce qui témoigne de leur
+efficacité.
 
-La régression logistique ne semble pas très prometteuse, puisqu'elle a déjà l'air
-d'avoir convergé vers un résultat moyen.
+La régression logistique ne semble pas très prometteuse, puisqu'elle a déjà
+l'air d'avoir convergé vers un résultat moyen.
 
 La forêt d'arbres décisionnels overfit énormément mais fournit tout de même un
 bon résultat, en augmentant le biais il devrait être possible d'en améliorer les
@@ -68,15 +69,15 @@ Les arbres avec gradient boosting ont au contraire l'air d'underfit, peut-être
 qu'améliorer la variance pourrait fournir de bons résultast.
 
 La SVM continue manifestement à bénéficier des nouvelles données, essayer de
-nettoyer les données mises de côté ou d'accélerer l'apprentissage devrait fournir
-une nette amélioration. Cependant, elle ne converge actuellement pas vers une
-valeur très intéressante.
+nettoyer les données mises de côté devrait fournir une certaine amélioration,
+cependant au vu des résultats actuels il est peu probable que l'effort soit
+rentable - dépasser les 0.92 semble difficile, même avec les 20 000 entrées.
 
 Le réseau de neurones overfit beaucoup et fournit une prédiction correcte, mais
 au prix de beaucoup plus de temps d'exécution
 
-Au vu de ces résultats, essayons d'améliorer les performances de la forêt d'arbres
-de décision et des arbres avec gradient boosting.
+Au vu de ces résultats, essayons d'améliorer les performances de la forêt
+d'arbres de décision et des arbres avec gradient boosting.
 
 \subsection{Optimisation des hyperparamètres}
 foo
