@@ -25,4 +25,8 @@ SVM: 2.4min
 Multi-layer Perceptron: 6.0min
 
 Gradient Boosted Trees
-Lancer des RandomCV sur learning rate & ce qui est décrit dans la doc.
+Random - or not - grid search sur :
+- learning rate
+- subsampling
+- max_features /? max_leaf_nodes
+
