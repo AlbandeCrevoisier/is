@@ -1,7 +1,8 @@
 from importlib import reload
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score, learning_curve
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import learning_curve
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
@@ -70,7 +71,8 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    ert = ExtraTreesClassifier(n_estimators=100, bootstrap=True, oob_score=True, n_jobs=-1)
+    ert = ExtraTreesClassifier(n_estimators=100, bootstrap=True,
+        oob_score=True, n_jobs=-1)
     svm = SVC(gamma='scale')
     return {
         'Extremely Randomized Trees': ert,
@@ -81,7 +83,8 @@ def make_clfs():
 def compare_clfs(clfs, X, y):
     """Compare the given classifiers."""
     for name, clf in clfs.items():
-        train_size, train, test = learning_curve(clf, X, y, cv=5, verbose=1, shuffle=True, n_jobs=-1)
+        train_size, train, test = learning_curve(clf, X, y, cv=5, verbose=1,
+            shuffle=True, n_jobs=-1)
         trainmean = np.mean(train, axis=1)
         trainstd = np.std(train, axis=1)
         testmean = np.mean(test, axis=1)
@@ -91,9 +94,12 @@ def compare_clfs(clfs, X, y):
         plt.xlabel("Training examples")
         plt.ylabel("Score")
         plt.plot(train_size, trainmean, 'o-', color='b', label='Training')
-        plt.fill_between(train_size, trainmean - trainstd, trainmean + trainstd, alpha=0.1, color='b')
-        plt.plot(train_size, testmean, 'o-', color='g', label='Cross-validation')
-        plt.fill_between(train_size, testmean - teststd, testmean + teststd, alpha=0.1, color='g')
+        plt.fill_between(train_size, trainmean - trainstd,
+            trainmean + trainstd, alpha=0.1, color='b')
+        plt.plot(train_size, testmean, 'o-', color='g',
+            label='Cross-validation')
+        plt.fill_between(train_size, testmean - teststd,
+            testmean + teststd, alpha=0.1, color='g')
         plt.legend(loc='best')
         sns.despine()
         plt.show()
