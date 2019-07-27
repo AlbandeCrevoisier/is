@@ -52,3 +52,8 @@ split3_test_score                                                0.907771
 split4_test_score                                                0.911626
 mean_test_score                                                  0.911996
 std_test_score                                                 0.00299486
+
+ExtraTrees avec 3000 arbres :
+mean 0.9055
+std 0.00347
+Pas top.
