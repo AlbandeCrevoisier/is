@@ -32,17 +32,31 @@ les bonnes valeurs, estimant que la perte d'environs 15% des données était ici
 acceptable.
 
 \subsection{Dépendances Statistiquement Significatives}
-foo
+
+\subsubsection{Spécialité et Sexe}
+
+\begin{tabular}{cc}
+\includegraphics[width=.5\columnwidth]{specialite_sexe} &
+\includegraphics[width=.5\columnwidth]{sexe_specialite}
+\end{tabular}
+
+\subsubsection{Couleur de cheveux et Salaire demandé}
+
+\centering
+\includegraphics[width=.5\columnwidth]{dist_salaire_cheveux}
+
+\subsubsection{Expérience et note}
+
+Corrélation: -0.016512926097244886
 
 \section{Machine Learning}
 
 \subsection{Sélection de modèle}
 Commençons par comparer quelques modèles classiques avec les paramètres
-par défaut pour se faire une première idée : un classificateur bayesien standard,
-une régression logistique, une random forest, une SVM et un réseau de neurones
-dense.
+par défaut pour se faire une première idée : un classificateur bayesien
+standard,une régression logistique, une random forest, une SVM et un réseau de
+neurones dense.
 
-\begin{figure}
 \begin{tabular}{cc}
 \includegraphics[width=.5\columnwidth]{Naive_Bayes} &
 \includegraphics[width=.5\columnwidth]{Logistic_Regression} \\
@@ -51,32 +65,31 @@ dense.
 \includegraphics[width=.5\columnwidth]{SVM} &
 \includegraphics[width=.5\columnwidth]{Multi-Layer_Perceptron} \\
 \end{tabular}
-\caption{Classificateurs habituels avec paramètres par défaut}
-\end{figure}
 
 Le classificateur bayesien fournit un seuil minimal de performances attendues,
-que tous les autres classificateurs dépassent, ce qui témoigne de leur efficacité.
+que tous les autres classificateurs dépassent, ce qui témoigne de leur
+efficacité.
 
-La régression logistique ne semble pas très prometteuse, puisqu'elle a déjà l'air
-d'avoir convergé vers un résultat moyen.
+La régression logistique ne semble pas très prometteuse, puisqu'elle a déjà
+l'air d'avoir convergé vers un résultat moyen.
 
 La forêt d'arbres décisionnels overfit énormément mais fournit tout de même un
-bon résultat, en augmentant le biais il devrait être possible d'en améliorer les
-performances.
+bon résultat, en augmentant le biais il devrait être possible d'en améliorer
+les performances.
 
 Les arbres avec gradient boosting ont au contraire l'air d'underfit, peut-être
 qu'améliorer la variance pourrait fournir de bons résultast.
 
 La SVM continue manifestement à bénéficier des nouvelles données, essayer de
-nettoyer les données mises de côté ou d'accélerer l'apprentissage devrait fournir
-une nette amélioration. Cependant, elle ne converge actuellement pas vers une
-valeur très intéressante.
+nettoyer les données mises de côté ou d'accélerer l'apprentissage devrait
+fournir une nette amélioration. Cependant, elle ne converge actuellement pas
+vers une valeur très intéressante.
 
 Le réseau de neurones overfit beaucoup et fournit une prédiction correcte, mais
 au prix de beaucoup plus de temps d'exécution
 
-Au vu de ces résultats, essayons d'améliorer les performances de la forêt d'arbres
-de décision et des arbres avec gradient boosting.
+Au vu de ces résultats, essayons d'améliorer les performances de la forêt
+d'arbres de décision et des arbres avec gradient boosting.
 
 \subsection{Optimisation des hyperparamètres}
 foo
