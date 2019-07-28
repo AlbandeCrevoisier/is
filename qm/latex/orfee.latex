@@ -40,9 +40,13 @@ acceptable.
 \includegraphics[width=.5\columnwidth]{sexe_specialite}
 \end{tabular}
 
-On observe bien sur ce graphique une corrélation assez forte entre spécialité
-et sexe. Elle est de 0.32 pour la géologie et 0.21 pour l'archéologie et le
-métier de détective.
+On observe sur ce graphique une faible corrélation entre spécialité et sexe.
+Elle est de 0.32 pour la géologie et 0.21 pour l'archéologie et le métier de
+détective.
+Ceci est confirmé par l'utilisation d'un classificateur bayesien naïf qui
+obtient un score de 0.69 +/- 1.4% pour prédire le sexe à partir uniquement
+de la spécialité.
+TODO: p-value?
 
 \subsubsection{Couleur de cheveux et Salaire demandé}
 
