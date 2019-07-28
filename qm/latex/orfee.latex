@@ -40,12 +40,19 @@ acceptable.
 \includegraphics[width=.5\columnwidth]{sexe_specialite}
 \end{tabular}
 
+On observe bien sur ce graphique une corrélation assez forte entre spécialité
+et sexe. Elle est de 0.32 pour la géologie et 0.21 pour l'archéologie et le
+métier de détective.
+
 \subsubsection{Couleur de cheveux et Salaire demandé}
 
 \centering
 \includegraphics[width=.5\columnwidth]{dist_salaire_cheveux}
 
 \subsubsection{Expérience et note}
+
+\centering
+\includegraphics[width=.5\columnwidth]{kde_note_exp}
 
 Corrélation: -0.016512926097244886
 
