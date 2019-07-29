@@ -65,7 +65,7 @@ Corrélation: -0.016512926097244886
 \subsection{Sélection de modèle}
 Commençons par comparer quelques modèles classiques avec les paramètres
 par défaut pour se faire une première idée : un classificateur bayesien
-standard,une régression logistique, une random forest, une SVM et un réseau de
+standard, une régression logistique, une random forest, une SVM et un réseau de
 neurones dense.
 
 \begin{tabular}{cc}
@@ -92,9 +92,9 @@ Les arbres avec gradient boosting ont au contraire l'air d'underfit, peut-être
 qu'améliorer la variance pourrait fournir de bons résultast.
 
 La SVM continue manifestement à bénéficier des nouvelles données, essayer de
-nettoyer les données mises de côté ou d'accélerer l'apprentissage devrait
-fournir une nette amélioration. Cependant, elle ne converge actuellement pas
-vers une valeur très intéressante.
+nettoyer les données mises de côté devrait fournir une certaine amélioration,
+cependant au vu des résultats actuels il est peu probable que l'effort soit
+rentable - dépasser les 0.92 semble difficile, même avec les 20 000 entrées.
 
 Le réseau de neurones overfit beaucoup et fournit une prédiction correcte, mais
 au prix de beaucoup plus de temps d'exécution
