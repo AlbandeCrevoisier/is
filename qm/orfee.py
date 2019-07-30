@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.model_selection import learning_curve, RandomizedSearchCV
+from scipy.stats import randint as sp_randint
+from scipy.stats import uniform
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
@@ -46,7 +48,6 @@ def pp(data, test_size=0.25, inplace=True):
     else:
         y = data['embauche']
         X = data.drop('embauche')
-    X.drop('date', axis=1, inplace=True)
     cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
     X = pd.get_dummies(X, columns=cat)
     X[['age', 'note']] /= 100
@@ -106,10 +107,25 @@ def compare_clfs(clfs, X, y):
             testmean + teststd, alpha=0.1, color='r')
         plt.legend(loc='best')
         sns.despine()
-        f.savefig(name + '-nodate.pdf', bbox_inches='tight')
+        f.savefig(name + '.pdf', bbox_inches='tight')
+
+
+def main():
+    """Do stuff."""
+    X_train, X_test, y_train, y_test = pp(load_data())
+    m = X_train.shape[1]
+    gtb = GradientBoostingClassifier()
+    p = {
+        'learning_rate': uniform(0, 0.2),
+        'n_estimators': [50, 100, 150, 200, 250],
+        'subsample': uniform(0, 1),
+        'max_features': sp_randint(1, m),
+        'max_leaf_nodes': sp_randint(1, m)
+        }
+    rs = RandomizedSearchCV(gtb, p, n_iter=50, cv=5, n_jobs=-1, verbose=1)
+    rs.fit(X_train, y_train)
+    return rs
 
 
 if __name__ == "__main__":
-    """Do stuff."""
-    X_train, X_test, y_train, y_test = pp(load_data())
-
+    main()
