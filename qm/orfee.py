@@ -39,19 +39,15 @@ def plots(d):
 
 
 def pp(data, test_size=0.25, inplace=True):
-    """Preprocess the DataFrame d and return X, y."""
+    """Preprocess data and return X_train, X_test,  y_train, y_test."""
     if inplace:
-        d = data
+        y = data.pop('embauche')
+        X = data
     else:
-        d = data.copy()
-    y = d.pop('embauche')
-    X = d
-    X['day'] = X['date'].transform(lambda x: x.day)
-    X['month'] = X['date'].transform(lambda x: x.month)
-    X['year'] = X['date'].transform(lambda x: x.year)
+        y = data['embauche']
+        X = data.drop('embauche')
     X.drop('date', axis=1, inplace=True)
-    cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo',
-        'day', 'month', 'year']
+    cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
     X = pd.get_dummies(X, columns=cat)
     X[['age', 'note']] /= 100
     X['salaire'] = (X['salaire'] - X['salaire'].mean()) / X['salaire'].std()
@@ -71,12 +67,20 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    ert = ExtraTreesClassifier(n_estimators=100, bootstrap=True,
-        oob_score=True, n_jobs=-1)
+    nb = GaussianNB()
+    lr = LogisticRegressionCV(cv=5, solver='lbfgs', multi_class='multinomial',
+        n_jobs=-1)
+    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
     svm = SVC(gamma='scale')
+    gbt = GradientBoostingClassifier()
+    mlp = MLPClassifier((60, 60, 60, 60), solver='lbfgs')
     return {
+        'Naive Bayes': nb,
+        'Logistic Regression': lr,
         'Extremely Randomized Trees': ert,
+        'Gradient Boosted Trees': gbt,
         'SVM': svm,
+        'Multi-layer Perceptron': mlp
         }
 
 
@@ -89,23 +93,23 @@ def compare_clfs(clfs, X, y):
         trainstd = np.std(train, axis=1)
         testmean = np.mean(test, axis=1)
         teststd = np.std(test, axis=1)
-        plt.figure()
+        f = plt.figure()
         plt.title(name)
         plt.xlabel("Training examples")
         plt.ylabel("Score")
         plt.plot(train_size, trainmean, 'o-', color='b', label='Training')
         plt.fill_between(train_size, trainmean - trainstd,
             trainmean + trainstd, alpha=0.1, color='b')
-        plt.plot(train_size, testmean, 'o-', color='g',
+        plt.plot(train_size, testmean, 'o-', color='r',
             label='Cross-validation')
         plt.fill_between(train_size, testmean - teststd,
-            testmean + teststd, alpha=0.1, color='g')
+            testmean + teststd, alpha=0.1, color='r')
         plt.legend(loc='best')
         sns.despine()
-        plt.show()
+        f.savefig(name + '-nodate.pdf', bbox_inches='tight')
 
 
 if __name__ == "__main__":
+    """Do stuff."""
     X_train, X_test, y_train, y_test = pp(load_data())
-    gtb = GradientBoostingClassifier()
-    rs = 
+
