@@ -58,12 +58,12 @@ def pp(data, test_size=0.25, inplace=True):
 
 def feature_importance(X, y):
     """Get the feature importance."""
-    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
+    ert = ExtraTreesClassifier(n_estimators=200, n_jobs=-1)
     ert.fit(X, y)
     fi = ert.feature_importances_
     idx = np.argsort(fi)[::-1]
     plt.xticks(rotation=30)
-    sns.barplot(X.columns.values[idx[:10]], fi[idx[:10]])
+    sns.barplot(X.columns.values[idx], fi[idx])
 
 
 def make_clfs():
