@@ -113,18 +113,8 @@ def compare_clfs(clfs, X, y):
 def main():
     """Do stuff."""
     X_train, X_test, y_train, y_test = pp(load_data())
-    m = X_train.shape[1]
-    gtb = GradientBoostingClassifier()
-    p = {
-        'learning_rate': uniform(0, 0.2),
-        'n_estimators': [50, 100, 150, 200, 250],
-        'subsample': uniform(0, 1),
-        'max_features': sp_randint(1, m),
-        'max_leaf_nodes': sp_randint(1, m)
-        }
-    rs = RandomizedSearchCV(gtb, p, n_iter=50, cv=5, n_jobs=-1, verbose=1)
-    rs.fit(X_train, y_train)
-    return rs
+    clfs = make_clfs()
+    compare_clfs(clfs, X_train, y_train)
 
 
 if __name__ == "__main__":
