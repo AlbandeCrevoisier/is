@@ -11,10 +11,12 @@
 \maketitle
 
 \abstract{}
+
 Il s'agit ici de prédire le succès ou l'échec d'une candidature au poste de
 chercheur d'or chez OrFée.
 
 \section{Introduction}
+
 Ce test a été réalisé en python 3.7.3 avec les bibliothèques pandas pour le
 data processing, scipy et scikit-learn pour le machine learning, et matplotlib
 et seaborn pour la visualisation des résultats.
@@ -25,10 +27,11 @@ README.
 \section{Statistiques Descriptives}
 
 \subsection{Jeu de données}
+
 Le jeu de données comporte 20 000 observations, dont 16 984 sont parfaitement
 bonnes - pas d'élément manquant ni de valeur en dehors de leurs contraintes,
 comme un âge négatif par exemple. J'ai décidé pour ce test de ne conserver que
-les bonnes valeurs, estimant que la perte d'environs 15\% des données était ici
+les bonnes valeurs, estimant que la perte d'environs 12\% des données était ici
 acceptable.
 
 \subsection{Dépendances Statistiquement Significatives}
@@ -65,10 +68,11 @@ Corrélation: -0.016512926097244886
 \section{Machine Learning}
 
 \subsection{Sélection de modèle}
-Commençons par comparer quelques modèles classiques avec les paramètres
-par défaut pour se faire une première idée : un classificateur bayesien
-standard, une régression logistique, une random forest, une SVM et un réseau de
-neurones dense.
+
+Commençons par comparer quelques modèles classiques avec les paramètres par
+défaut pour se faire une première idée : un classificateur bayesien standard,
+une régression logistique, une random forest, une SVM et un réseau de neurones
+dense.
 
 \begin{tabular}{cc}
 \includegraphics[width=.5\columnwidth]{Naive_Bayes} &
@@ -105,6 +109,7 @@ Au vu de ces résultats, essayons d'améliorer les performances de la forêt
 d'arbres de décision et des arbres avec gradient boosting.
 
 \subsection{Optimisation des hyperparamètres}
+
 foo
 
 \end{document}
