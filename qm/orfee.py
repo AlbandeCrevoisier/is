@@ -102,6 +102,7 @@ def compare_clfs(clfs, X, y):
             testmean + teststd, alpha=0.1, color='r')
         plt.legend(loc='best')
         sns.despine()
+        plt.show()
 
 
 def main():
