@@ -9,9 +9,8 @@ from sklearn.model_selection import learning_curve, RandomizedSearchCV
 from scipy.stats import randint as sp_randint
 from scipy.stats import uniform
 
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegressionCV
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 
@@ -75,21 +74,20 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    nb = GaussianNB()
-    lr = LogisticRegressionCV(cv=5, solver='lbfgs', multi_class='multinomial',
-        n_jobs=-1)
+    rf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
-    svm = SVC(gamma='scale')
+    ab = AdaBoostClassifier()
     gbt = GradientBoostingClassifier()
-    mlp = MLPClassifier((60, 60, 60, 60), solver='lbfgs')
-    return {
-        'Naive Bayes': nb,
-        'Logistic Regression': lr,
-        'Extremely Randomized Trees': ert,
-        'Gradient Boosted Trees': gbt,
-        'SVM': svm,
-        'Multi-layer Perceptron': mlp
-        }
+    svm = SVC(gamma='scale')
+    mlp = MLPClassifier((20, 20, 20, 20, 20), solver='lbfgs')
+    return [
+        ('Random Forest', rf),
+        ('Extremely Randomized Trees', ert),
+        ('Ada Boost', ab),
+        ('Gradient Boosted Trees', gbt),
+        ('SVM', svm),
+        ('Multi-layer Perceptron', mlp),
+        ]
 
 
 def compare_clfs(clfs, X, y):
@@ -101,7 +99,6 @@ def compare_clfs(clfs, X, y):
         trainstd = np.std(train, axis=1)
         testmean = np.mean(test, axis=1)
         teststd = np.std(test, axis=1)
-        f = plt.figure()
         plt.title(name)
         plt.xlabel("Training examples")
         plt.ylabel("Score")
@@ -114,7 +111,6 @@ def compare_clfs(clfs, X, y):
             testmean + teststd, alpha=0.1, color='r')
         plt.legend(loc='best')
         sns.despine()
-        f.savefig(name + '.pdf', bbox_inches='tight')
 
 
 def main():
