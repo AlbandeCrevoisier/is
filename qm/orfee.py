@@ -108,11 +108,15 @@ def compare_clfs(clfs, X, y):
 def main():
     """Do stuff."""
     X_train, X_test, y_train, y_test = pp(load_data())
-    clfs = make_clfs()
-    vc = VotingClassifier(list(clfs.values()))
-    return cross_val_score(vc, X_train, y_train, cv=10, n_jobs=-1, verbose=1)
+    mlp = MLPClassifier(solver='lbfgs')
+    h = []
+    for i in range(12, 21):
+        for j in range(4, 15):
+            h.append((i, j))
+    gs = GridSearchCV(mlp, {'hidden_layer_sizes': h}, n_jobs=-1, cv=5)
+    gs.fit(X_train, y_train)
+    return pd.DataFrame(gs.cv_results_)
 
 
 if __name__ == "__main__":
-    cv = main()
-    print(cv.mean(), ' +/- ', cv.std())
+    df = main()
