@@ -1,19 +1,14 @@
-from importlib import reload
-
 import numpy as np
 import pandas as pd
-
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.model_selection import learning_curve, RandomizedSearchCV
-
-from scipy.stats import randint as sp_randint
-from scipy.stats import uniform
-
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
 from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
-
+from sklearn.ensemble import VotingClassifier
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import learning_curve, RandomizedSearchCV
+from scipy.stats import randint as sp_randint
+from scipy.stats import uniform
 import matplotlib.pyplot as plt
 import seaborn as sns
 
