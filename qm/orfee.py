@@ -42,6 +42,7 @@ def plots(d):
 
 def pp(data, test_size=0.25, inplace=True):
     """Preprocess data and return X_train, X_test,  y_train, y_test."""
+    data.drop('date', axis=1, inplace=inplace)
     if inplace:
         y = data.pop('embauche')
         X = data
