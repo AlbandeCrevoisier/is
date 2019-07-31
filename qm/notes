@@ -57,3 +57,5 @@ ExtraTrees avec 3000 arbres :
 mean 0.9055
 std 0.00347
 Pas top.
+
+Decision Tree: max_leaf_nodes=2 or 3 doesn't overfit anymore.
