@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
-from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import VotingClassifier
@@ -71,18 +71,14 @@ def make_clfs():
     """Make classifiers following the standard methods."""
     rf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
     ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
-    ab = AdaBoostClassifier()
     gbt = GradientBoostingClassifier()
-    svm = SVC(gamma='scale')
-    mlp = MLPClassifier((20, 20, 20, 20, 20), solver='lbfgs')
-    return [
-        ('Random Forest', rf),
-        ('Extremely Randomized Trees', ert),
-        ('Ada Boost', ab),
-        ('Gradient Boosted Trees', gbt),
-        ('SVM', svm),
-        ('Multi-layer Perceptron', mlp),
-        ]
+    mlp = MLPClassifier((20, 17, 15, 13, 10), solver='lbfgs')
+    return {
+        'Random Forest': rf,
+        'Extremely Randomized Trees': ert,
+        'Gradient Boosted Trees': gbt,
+        'Multi-layer Perceptron': mlp
+        }
 
 
 def compare_clfs(clfs, X, y):
@@ -112,8 +108,10 @@ def main():
     """Do stuff."""
     X_train, X_test, y_train, y_test = pp(load_data())
     clfs = make_clfs()
-    compare_clfs(clfs, X_train, y_train)
+    vc = VotingClassifier(list(clfs.values()))
+    return cross_val_score(vc, X_train, y_train, cv=10, n_jobs=-1, verbose=1)
 
 
 if __name__ == "__main__":
-    main()
+    cv = main()
+    print(cv.mean(), ' +/- ', cv.std())
