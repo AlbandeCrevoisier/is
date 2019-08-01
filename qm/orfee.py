@@ -69,10 +69,10 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    rf = RandomForestClassifier(n_estimators=100, n_jobs=-1)
-    ert = ExtraTreesClassifier(n_estimators=100, n_jobs=-1)
-    gbt = GradientBoostingClassifier()
-    mlp = MLPClassifier((20, 17, 15, 13, 10), solver='lbfgs')
+    rf = RandomForestClassifier(n_estimators=400, n_jobs=-1)
+    ert = ExtraTreesClassifier(n_estimators=400, n_jobs=-1)
+    gbt = GradientBoostingClassifier(n_estimators=400)
+    mlp = MLPClassifier((17, 7), solver='lbfgs')
     return {
         'Random Forest': rf,
         'Extremely Randomized Trees': ert,
