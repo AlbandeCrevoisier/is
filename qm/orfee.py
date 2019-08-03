@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
@@ -69,14 +70,15 @@ def feature_importance(X, y):
 
 def make_clfs():
     """Make classifiers following the standard methods."""
-    rf = RandomForestClassifier(n_estimators=400, n_jobs=-1)
+    rf = RandomForestClassifier(n_estimators=2000, max_features=9,
+        n_jobs=-1)
     ert = ExtraTreesClassifier(n_estimators=400, n_jobs=-1)
-    gbt = GradientBoostingClassifier(n_estimators=400)
+    xgb = XGBClassifier(n_estimators=400, n_jobs=-1)
     mlp = MLPClassifier((17, 7), solver='lbfgs')
     return {
         'Random Forest': rf,
         'Extremely Randomized Trees': ert,
-        'Gradient Boosted Trees': gbt,
+        'Extreme Gradient Boosting': xgb,
         'Multi-layer Perceptron': mlp
         }
 
