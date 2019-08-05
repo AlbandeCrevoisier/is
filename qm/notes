@@ -67,13 +67,6 @@ Gradient Boosted Trees  0.903875395007311  +/-  0.004128020192753957
 SVM  0.9050869432534258  +/-  0.003301594031322281
 Multi-layer Perceptron  0.9169709680102771  +/-  0.006081890114309832
 
-MLP
-(25, 10): 0.9209818206319333
-(20, 10): 0.9206023456971483
-(17, 10): 0.9214368821376302
+Best: 17,7 over ([12 - 20], [4-14]) 0.923780971
 
-GridSearchCV(estimator, params {'param': vals}, n_jobs, cv, verbose)
-MLP hidden_layer_sizes = (), learning_rate_init?
-15,20
-7,13
-Best: 17,7 over ([12 - 20], [4-14]) 0.923
+VotingClassifier(mlp, rf) 0.9125024810942763
