@@ -43,13 +43,13 @@ def plots(d):
 
 def pp(data, test_size=0.25, inplace=True):
     """Preprocess data and return X_train, X_test,  y_train, y_test."""
-    data.drop('date', axis=1, inplace=inplace)
     if inplace:
         y = data.pop('embauche')
         X = data
     else:
         y = data['embauche']
         X = data.drop('embauche')
+    X.drop('date', axis=1, inplace=inplace)
     cat = ['cheveux', 'sexe', 'diplome', 'specialite', 'dispo']
     X = pd.get_dummies(X, columns=cat)
     X[['age', 'note']] /= 100
